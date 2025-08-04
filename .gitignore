@@ -1,0 +1,102 @@
+# ---- OS & Editor files ----
+.DS_Store
+Thumbs.db
+Icon?
+# Vim / Emacs swaps
+.*.sw?
+*~
+
+# ---- Python ----
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+
+# Build artifacts / packaging
+build/
+dist/
+.eggs/
+*.egg-info/
+
+# Testing / coverage
+.pytest_cache/
+.tox/
+.nox/
+.coverage*
+htmlcov/
+.mypy_cache/
+.pytype/
+
+# ---- Node / Front-End ----
+node_modules/
+# TypeScript incremental build info
+*.tsbuildinfo
+
+# Build outputs
+front/dist/
+dist/
+front/out/
+out/
+release/
+**/*.asar
+
+# Playwright & Vitest reports
+playwright-report/
+coverage/
+
+# Package manager logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Python script
+front/src/scripts/*.spec
+
+# ---- Environment & Secrets ----
+.env
+.env.*
+.envrc
+forge.env.d.ts
+test_context/.img
+test_context/.text
+
+# ---- Mac OS specific ----
+.AppleDouble
+.LSOverride
+
+# ---- Misc ----
+*.log
+*.bak
+*.tmp
+Modelfile
+
+# Ignore PDF and large sample files if not needed in repo (comment out if you intend to version them)
+# form_pdf_long.pdf
+# test_context/
+
+# Ignore PDF and large sample files
+context_data.json
+test_context/chat_sessions/*
+*_filled.*
+
+# Ignore generated test context and helper scripts
+test_run.sh
+
+TASKS.md 
+.vscode/launch.json
+test_context/aggregated_corpus*
+entries.txt
+prompts.txt
+forms/application1.pdf
+forms/TITRE DE SEJOUR (1).pdf
+forms/form_checkbox_test.pdf
+forms/form_pdf_long (2).pdf
+forms/Personal-Information-Form-for-Online (2)_filled.docx
+forms/Personal-Information-Form-for-Online (2).docx
