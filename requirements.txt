@@ -1,0 +1,18 @@
+fastapi
+google-generativeai
+groq
+markitdown[pdf, docx, pptx]
+openai
+passport_mrz_extractor
+PyMuPDF
+pyperclip
+pydantic[email]>=2.5
+pypdf
+python-docx
+python-dotenv
+PyYAML
+requests
+transformers
+uvicorn[standard]
+ollama
+pypdf

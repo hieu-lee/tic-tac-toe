@@ -1,0 +1,9 @@
+export const CONTEXT = "easyFormContext"
+export const SELECT_FILE_CHANNEL = `${CONTEXT}:selectFile`;
+export const SELECT_FILES_CHANNEL = `${CONTEXT}:selectFiles`;
+export const OPEN_FILE_CHANNEL = `${CONTEXT}:openFile`;
+export const SELECT_DIRECTORY_CHANNEL = `${CONTEXT}:chooseDirectory`;
+export const OPEN_DIRECTORY_CHANNEL = `${CONTEXT}:openDirectory`;
+export const READ_FILE_CHANNEL = `${CONTEXT}:readFile`;
+export const SAVE_IMAGE_CHANNEL = `${CONTEXT}:saveImage`;
+export const IS_FILE_EXISTENT_CHANNEL = `${CONTEXT}:isFileExistent`;

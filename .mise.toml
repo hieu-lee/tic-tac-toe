@@ -1,0 +1,58 @@
+min_version = "2024.9.5"
+
+[env]
+# PYTHONPATH = "{{config_root}}"
+_.python.venv = { path = ".venv", create = true }
+
+[tools]
+python = "3.12"
+uv = "latest"
+
+[tasks.install]
+description = "Install dependencies"
+alias = "i"
+run = "uv pip install -r requirements.txt"
+
+[tasks.freeze]
+description = "Freeze dependencies"
+alias = "f"
+run = "uv pip freeze > requirements.txt"
+
+[tasks.start-backend]
+description = "Start backend server"
+alias = "sb"
+dir = "{{config_root}}"
+run = "uvicorn back.api:app --host 0.0.0.0 --port 8000 --reload"
+
+[tasks.start-frontend]
+description = "Start backend server"
+alias = "sf"
+dir = "{{config_root}}/front"
+run = "npm start"
+
+[tasks.back-cli]
+description = "Start back CLI"
+alias = "cli"
+dir = "{{config_root}}"
+run = "python -m back.cli"
+
+[tasks.back-cli-help]
+description = "Backend CLI help"
+alias = "cli-h"
+dir = "{{config_root}}"
+run = "python -m back.cli -h"
+
+[tasks.update-context]
+description = "Update context to fill form"
+alias = "uc"
+dir = "{{config_root}}"
+run = "rm ~/easyform/context/context_data.json && python -m back.cli --contextDir ~/easyform/context --provider groq"
+
+[tasks.bundle-backend]
+description = "Bundle backend with frontend"
+alias = "bb"
+dir = "{{config_root}}"
+run = "pyinstaller server.spec --clean --distpath ./front/src/assets/python"
+
+[settings]
+python.uv_venv_auto = true

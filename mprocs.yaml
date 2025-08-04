@@ -1,0 +1,9 @@
+procs:
+  back:
+    shell: "uvicorn back.api:app --host 0.0.0.0 --port 8000 --reload"
+  # TODO: To be remove when react-devtools extension is fixed
+  react-devtools:
+    shell: "react-devtools"
+  front:
+    shell: "npm start"
+    cwd: "./front"

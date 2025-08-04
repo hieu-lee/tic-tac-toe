@@ -1,0 +1,9 @@
+export const CONTEXT = "xContext"
+export const HELLO_WORLD_CHANNEL = `${CONTEXT}:helloWorld`;
+export const CREATE_FILE_CHANNEL = `${CONTEXT}:createFile`;
+export const RUN_BASH_SCRIPT_CHANNEL = `${CONTEXT}:callBash`;
+export const RUN_BIN_CHANNEL = `${CONTEXT}:runBin`;
+export const SELECT_FILE = `${CONTEXT}:selectFile`;
+export const OPEN_FILE = `${CONTEXT}:openFile`;
+export const SELECT_DIRECTORY = `${CONTEXT}:chooseDirectory`;
+export const OPEN_DIRECTORY = `${CONTEXT}:openDirectory`;
