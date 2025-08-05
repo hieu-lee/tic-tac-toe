@@ -149,7 +149,7 @@ cd front && npm run package
   - The package will be created in `./front/out` directory
 4. To run frontend packaged with backend:
   + For debugging, run the commands [here](https://github.com/hieu-lee/we-got-this/blob/0a84f9c373b4c87d5239057d16cd2b122e5ae8c4/front/mprocs.yaml#L1-L1)
-  + For production run `open front/out/FormFillerAI-darwin-arm64/FormFillerAI.app/`
+  + For production run `open front/out/EasyForm-darwin-arm64/EasyForm.app`
 
 ## Quick Local Backend Test Run
 
