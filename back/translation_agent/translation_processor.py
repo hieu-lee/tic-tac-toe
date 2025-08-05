@@ -210,12 +210,9 @@ def translate_file(
     # ------------------------------------------------------------------
     if ext.lower() == ".pdf":
         if has_text_layer(path):
-            if output_path is not None:
-                if not output_path.lower().endswith(".pdf"):
-                    output_path = os.path.splitext(output_path)[0] + ".pdf"
-                import shutil
-                shutil.move(final_pdf_path, output_path)
-                final_pdf_path = output_path
+            if not output_path.lower().endswith(".pdf"):
+                output_path = os.path.splitext(output_path)[0] + ".pdf"
+            final_pdf_path = output_path
             try:
                 # 1) Convert PDF to a temporary DOCX
                 tmp_docx_path = convert_pdf_to_docx(path)
@@ -225,6 +222,13 @@ def translate_file(
 
                 # 3) Convert translated DOCX → final PDF
                 final_pdf_path = convert_docx_to_pdf(translated_docx_path)
+
+                if output_path is not None:
+                    if not output_path.lower().endswith(".pdf"):
+                        output_path = os.path.splitext(output_path)[0] + ".pdf"
+                    import shutil
+                    shutil.move(final_pdf_path, output_path)
+                    final_pdf_path = output_path
 
                 # Clean up temporary DOCX files
                 try:
