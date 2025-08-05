@@ -1,5 +1,7 @@
 procs:
   back:
     shell: "./src/assets/python/server"
+  react-devtools:
+    shell: "react-devtools"
   front:
     shell: "npm start"
