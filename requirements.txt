@@ -16,3 +16,4 @@ transformers
 uvicorn[standard]
 ollama
 pypdf
+pdf2docx
