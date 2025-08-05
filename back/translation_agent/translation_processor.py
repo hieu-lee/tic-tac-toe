@@ -210,33 +210,38 @@ def translate_file(
     # ------------------------------------------------------------------
     if ext.lower() == ".pdf":
         if has_text_layer(path):
-            # 1) Convert PDF to a temporary DOCX
-            tmp_docx_path = convert_pdf_to_docx(path)
-
-            # 2) Translate that DOCX (produces another DOCX)
-            translated_docx_path = _translate_docx(tmp_docx_path, target_lang, provider)
-
-            # 3) Convert translated DOCX → final PDF
-            final_pdf_path = convert_docx_to_pdf(translated_docx_path)
-
-            # If caller supplied an explicit output_path ensure we move/rename accordingly
             if output_path is not None:
                 if not output_path.lower().endswith(".pdf"):
                     output_path = os.path.splitext(output_path)[0] + ".pdf"
                 import shutil
                 shutil.move(final_pdf_path, output_path)
                 final_pdf_path = output_path
-
-            # Clean up temporary DOCX files
             try:
-                os.remove(tmp_docx_path)
-            except Exception:
-                logging.debug("Could not delete temporary file %s", tmp_docx_path)
-            try:
-                os.remove(translated_docx_path)
-            except Exception:
-                logging.debug("Could not delete translated DOCX %s", translated_docx_path)
+                # 1) Convert PDF to a temporary DOCX
+                tmp_docx_path = convert_pdf_to_docx(path)
 
+                # 2) Translate that DOCX (produces another DOCX)
+                translated_docx_path = _translate_docx(tmp_docx_path, target_lang, provider)
+
+                # 3) Convert translated DOCX → final PDF
+                final_pdf_path = convert_docx_to_pdf(translated_docx_path)
+
+                # Clean up temporary DOCX files
+                try:
+                    os.remove(tmp_docx_path)
+                except Exception:
+                    logging.debug("Could not delete temporary file %s", tmp_docx_path)
+                try:
+                    os.remove(translated_docx_path)
+                except Exception:
+                    logging.debug("Could not delete translated DOCX %s", translated_docx_path)
+            except Exception as e:
+                markdown_text, _ = extract_pdf(path, True)
+                translated_md = translate_markdown(markdown_text, target_lang, provider, cancel_id=path)
+                final_pdf_path = output_path.replace(".pdf", ".md")
+                with open(final_pdf_path, "w", encoding="utf-8") as fh:
+                    fh.write(translated_md)
+                logging.info(f"Translated markdown written to {final_pdf_path}")
             CACHED_TRANSLATIONS[key] = str(final_pdf_path)
             return str(final_pdf_path)
         else:
