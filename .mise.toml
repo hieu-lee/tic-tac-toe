@@ -54,5 +54,11 @@ alias = "bb"
 dir = "{{config_root}}"
 run = "pyinstaller server.spec --clean --distpath ./front/src/assets/python 2>&1 | tee pyinstaller.log"
 
+[tasks.zip_app]
+description = "Zip app for distribution on github, since github doesn't support .app files"
+alias = "za"
+dir = "{{config_root}}/front/out/EasyForm-darwin-arm64"
+run = "zip -r EasyForm.zip EasyForm.app"
+
 [settings]
 python.uv_venv_auto = true
