@@ -111,16 +111,21 @@ export default function FormFillingAI() {
     if (dir) {
       setContextDir(dir);
       setContextExtracted(false);
-      // Kick off context extraction immediately (do not await)
-      contextPromiseRef.current = DefaultService.apiExtractContextContextExtractPost({
-        context_dir: dir.path,
-        provider: DEFAULT_PROVIDER as ExtractContextRequest.provider,
-      }).then(res => res.context).catch((error) => {
-        console.error("Context extraction failed:", error);
-        return null;
-      });
     }
   };
+
+  const toUploadStep = () => {
+    setCurrentStep(2);
+    // Kick off context extraction immediately (do not await)
+    contextPromiseRef.current = DefaultService.apiExtractContextContextExtractPost({
+      context_dir: contextDir?.path || "",
+      provider: DEFAULT_PROVIDER as ExtractContextRequest.provider,
+    }).then(res => res.context).catch((error) => {
+      setContextExtracted(true);
+      console.error("Context extraction failed:", error);
+      return null;
+    });
+  }
 
   const changedLinesToFilledEntries =
     (changedLines: ChangeLine[], fillEntries: FillEntrySchema[]): FillEntrySchema[] => {
@@ -788,7 +793,7 @@ export default function FormFillingAI() {
                     <CardContent className="space-y-4">
                       <div className="flex items-center space-x-4 p-4 bg-accent rounded-lg border border-border">
                         <div className="flex-1">
-                          <h3 className="font-medium text-foreground">{selectedForm}</h3>
+                          <h3 className="font-medium text-foreground break-all">{selectedForm}</h3>
                           <p className="text-sm text-muted-foreground">
                             {selectedForm?.endsWith(".pdf") ? "PDF" : "DOCX"}
                           </p>
@@ -821,7 +826,7 @@ export default function FormFillingAI() {
                       <CardContent className="space-y-4">
                         <div className="flex items-center space-x-4 p-4 bg-green-100 dark:bg-green-800 rounded-lg border border-border">
                           <div className="flex-1">
-                            <h3 className="font-medium text-foreground">{currentJob?.outputPath || selectedForm}</h3>
+                            <h3 className="font-medium text-foreground break-all">{currentJob?.outputPath || selectedForm}</h3>
                             <p className="text-sm text-muted-foreground">
                               {selectedForm?.endsWith(".pdf") ? "PDF" : "DOCX"}
                             </p>
@@ -850,7 +855,7 @@ export default function FormFillingAI() {
           {currentStep === 1 && (
             <div className="flex justify-end">
               <Button
-                onClick={() => setCurrentStep(2)}
+                onClick={() => toUploadStep()}
                 disabled={!contextDir}
               >
                 Next: Upload Form
@@ -860,7 +865,7 @@ export default function FormFillingAI() {
 
           {currentStep === 2 && (
             <div className="flex justify-between">
-              <Button variant="outline" onClick={() => { setCurrentStep(1); setContextExtracted(false); }}>
+              <Button variant="outline" onClick={() => { setCurrentStep(1); }}>
                 Back
               </Button>
               {(() => {

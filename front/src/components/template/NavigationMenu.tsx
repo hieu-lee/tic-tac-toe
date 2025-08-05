@@ -52,7 +52,7 @@ export default function NavigationMenu() {
               </NavigationMenuLink>
             </NavigationMenuItem>
             <NavigationMenuItem
-              className={`transition-all duration-500 ease-out ${currentStep >= 2 && contextExtracted
+              className={`transition-all duration-500 ease-out ${contextExtracted
                   ? 'opacity-100 translate-x-0 scale-100'
                   : 'opacity-0 translate-x-4 scale-95 pointer-events-none'
                 }`}

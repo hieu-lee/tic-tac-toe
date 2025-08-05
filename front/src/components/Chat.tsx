@@ -52,6 +52,11 @@ type ChatProps = {
   selectedForm: string | undefined
   processingJobs: FormProcessingJob[]
   onSelectForm: (path?: string) => void;
+  /**
+   * If true (default), forms that are still processing/incomplete are disabled in the selector.
+   * Set to false (e.g., in EasyBot) to allow selecting any form.
+   */
+  disableIncompleteForms?: boolean;
 }
 
 export default function Chat(
@@ -61,7 +66,8 @@ export default function Chat(
     setContextKeys,
     selectedForm,
     processingJobs,
-    onSelectForm
+    onSelectForm,
+    disableIncompleteForms = true
   }: ChatProps
 ) {
 
@@ -431,6 +437,7 @@ export default function Chat(
               selectedForm={selectedForm}
               processingJobs={processingJobs}
               placeholder="Select form"
+              disableIncomplete={disableIncompleteForms}
               onFormSelect={(value) => {
                 onSelectForm(value);
               }}

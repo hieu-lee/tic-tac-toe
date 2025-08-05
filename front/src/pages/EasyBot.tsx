@@ -6,17 +6,18 @@ export default function EasyBot() {
   const {
     contextDir,
     selectedForm,
-    setSelectedForm,
     processingJobs,
     contextKeys,
-    setContextKeys
+    setContextKeys,
+    onSelectForm
   } = useFormFillerContext();
   return <Chat
     contextDir={contextDir}
     contextKeys={contextKeys}
     setContextKeys={setContextKeys}
     selectedForm={selectedForm}
-    setSelectedForm={setSelectedForm}
     processingJobs={processingJobs}
-  ></Chat>
+    onSelectForm={onSelectForm}
+    disableIncompleteForms={false}
+  />
 }

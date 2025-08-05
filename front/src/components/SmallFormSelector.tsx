@@ -21,6 +21,11 @@ interface SmallFormSelectorProps {
   onFormSelect: (value: string) => void;
   placeholder?: string;
   className?: string;
+  /**
+   * When true (default), incomplete/processing forms are disabled in the list.
+   * Set to false to allow selecting forms that are still processing.
+   */
+  disableIncomplete?: boolean;
 }
 
 export default function SmallFormSelector({
@@ -28,7 +33,8 @@ export default function SmallFormSelector({
   processingJobs,
   onFormSelect,
   placeholder = "Select form",
-  className = ""
+  className = "",
+  disableIncomplete = true
 }: SmallFormSelectorProps) {
   if (processingJobs.length === 0) {
     return null;
@@ -49,14 +55,14 @@ export default function SmallFormSelector({
             <SelectItem
               key={job.filePath}
               value={job.filePath}
-              disabled={!job.isCompleted}
+              disabled={disableIncomplete && !job.isCompleted}
             >
               <div className="flex items-center gap-2 text-sm">
                 {!job.isCompleted ? (
                   <Clock className="h-3 w-3 text-blue-500 animate-pulse" />
                 ) : (<Check className="h-3 w-3 text-green-500" />)
                 }
-                <span className={!job.isCompleted ? "text-muted-foreground" : ""}>
+                <span className={!job.isCompleted && disableIncomplete ? "text-muted-foreground" : ""}>
                   {job.filePath.split('/').pop()}
                 </span>
               </div>
