@@ -100,3 +100,6 @@ forms/form_checkbox_test.pdf
 forms/form_pdf_long (2).pdf
 forms/Personal-Information-Form-for-Online (2)_filled.docx
 forms/Personal-Information-Form-for-Online (2).docx
+
+# Pyinstaller log files
+pyinstaller.log

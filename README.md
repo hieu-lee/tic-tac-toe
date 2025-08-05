@@ -1,6 +1,6 @@
 # EasyForm
 
- An LLM-powered form filler using on-device user documents - can run entirely offline, ensuring accuracy, privacy with great user experience
+An LLM-powered form filler using on-device user documents - can run entirely offline, ensuring accuracy, privacy with great user experience
 
 ## Getting Started
 
@@ -51,21 +51,21 @@ npm run start
 ```
 
 7. Demo documents
-We have also prepare some mock documents for you to play with:
+   We have also prepare some mock documents for you to play with:
 
-* `./test_forms`: a mock pdf form file
+- `./test_forms`: a mock pdf form file
 <!-- TODO: Need to find some mock context files -->
-* `./test_context`: a mock context directory
+- `./test_context`: a mock context directory
 
 ## Features
 
-* **Intelligent form filling** – automatically fill PDF (interactive and flat) and DOCX templates using data extracted from your personal documents.
-* **Context extraction** – parses and OCRs PDFs, DOCX, images in a folder to build a rich `context_data.json` profile that drives the filling logic.
-* **Checkbox detection & processing** – identifies checkbox groups and determines which boxes to tick based on context.
-* **Multimodal chatbot** – talk to your documents with image attachments, persistent sessions and multiple LLM providers.
-* **File translation** – translate complete PDF/DOCX/image files into any language while preserving layout.
-* **Provider flexibility** – supports OpenAI, Groq, Google, AnythingLLM, local transformers and Ollama; can work fully offline.
-* **Top notch GUI** – cross-platform desktop dynamic GUI with dark mode
+- **Intelligent form filling** – automatically fill PDF (interactive and flat) and DOCX templates using data extracted from your personal documents.
+- **Context extraction** – parses and OCRs PDFs, DOCX, images in a folder to build a rich `context_data.json` profile that drives the filling logic.
+- **Checkbox detection & processing** – identifies checkbox groups and determines which boxes to tick based on context.
+- **Multimodal chatbot** – talk to your documents with image attachments, persistent sessions and multiple LLM providers.
+- **File translation** – translate complete PDF/DOCX/image files into any language while preserving layout.
+- **Provider flexibility** – supports OpenAI, Groq, Google, AnythingLLM, local transformers and Ollama; can work fully offline.
+- **Top notch GUI** – cross-platform desktop dynamic GUI with dark mode
 
 ## Command-line utilities
 
@@ -109,9 +109,9 @@ python -m back.chatbot.cli delete 3b9c88f2
 
 Inside the chat you can:
 
-* use `/history` to print the conversation
-* `/sendimg path/to/image.jpg your question` for image-based prompts
-* `/exit` to quit (auto-saves) or `/delete` to remove the session
+- use `/history` to print the conversation
+- `/sendimg path/to/image.jpg your question` for image-based prompts
+- `/exit` to quit (auto-saves) or `/delete` to remove the session
 
 ### 3. Translation CLI
 
@@ -142,11 +142,14 @@ cd front && npm run package
 
 ## Packaging
 
-1. Go into the `front` directory
-2. Run `npm run package` to create a production build of our app
-
-* This will package python backend into binary executable
-* The package will be created in `front/out` directory
+1. bundling backend as frontend asset with `pyinstaller server.spec --clean --distpath ./front/src/assets/python`
+2. Go into the `front` directory
+3. Run `npm run make` to create a production build of our app
+  - This will package python backend into binary executable
+  - The package will be created in `./front/out` directory
+4. To run frontend packaged with backend:
+  + For debugging, run the commands [here](https://github.com/hieu-lee/we-got-this/blob/0a84f9c373b4c87d5239057d16cd2b122e5ae8c4/front/mprocs.yaml#L1-L1)
+  + For production run `open front/out/FormFillerAI-darwin-arm64/FormFillerAI.app/`
 
 ## Quick Local Backend Test Run
 
@@ -196,4 +199,4 @@ The script walks through the entire API pipeline:
 
 ### Endpoints
 
-List of endpoints can be found at http://localhost:8000/docs
+List of endpoints can be found at <http://localhost:8000/docs>

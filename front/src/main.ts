@@ -3,13 +3,15 @@ import registerListeners from "./helpers/ipc/listeners-register";
 // "electron-squirrel-startup" seems broken when packaging with vite
 //import started from "electron-squirrel-startup";
 import path from 'path';
-import { exec } from 'child_process';
+import { exec, ChildProcess } from 'child_process';
 import {
   installExtension,
   REACT_DEVELOPER_TOOLS,
 } from "electron-devtools-installer";
 
 const inDevelopment = process.env.NODE_ENV === "development";
+
+let serverProcess: ChildProcess | null = null;
 
 function createWindow() {
   const preload = path.join(__dirname, "preload.js");
@@ -27,9 +29,8 @@ function createWindow() {
     titleBarStyle: "hidden",
   });
 
-  // Start backend
-  // If in DEV mode start backend in another process else start it in the same process
-  // if (true) { // Use this line if you want to bundle the backend with the frontend in dev mode
+  // TODO:
+  // if (true) { // Use this line to start backend in dev mode
   if (!inDevelopment) {
     console.log("Starting backend ...")
     let scriptPath: string;
@@ -48,11 +49,13 @@ function createWindow() {
     }
 
     try {
-      const { stderr } = exec(`${scriptPath}`);
+      serverProcess = exec(`${scriptPath}`);
 
-      if (stderr) {
-        console.error('Script stderr:', stderr);
-        // Note: stderr doesn't always mean error, some programs output to stderr
+      if (serverProcess.stderr) {
+        serverProcess.stderr.on('data', (data) => {
+          console.error('Script stderr:', data);
+          // Note: stderr doesn't always mean error, some programs output to stderr
+        });
       }
 
       console.log("Server starts successfully");
@@ -77,16 +80,21 @@ function createWindow() {
 
 app.whenReady()
   .then(createWindow)
-  // .then(() => {
-  //   // FIXME: https://github.com/MarshallOfSound/electron-devtools-installer is not working
-  //   installExtension(REACT_DEVELOPER_TOOLS)
-  //     .then((ext) => console.log(`Added Extension:  ${ext.name}`))
-  //     .catch((err) => console.log('An error occurred: ', err));
-  // });
+// .then(() => {
+//   // FIXME: https://github.com/MarshallOfSound/electron-devtools-installer is not working
+//   installExtension(REACT_DEVELOPER_TOOLS)
+//     .then((ext) => console.log(`Added Extension:  ${ext.name}`))
+//     .catch((err) => console.log('An error occurred: ', err));
+// });
 
 //osX only
 app.on("window-all-closed", () => {
   if (process.platform !== "darwin") {
+    if (serverProcess) {
+      console.log("Stopping server...");
+      serverProcess.kill();
+      serverProcess = null;
+    }
     app.quit();
   }
 });
@@ -94,6 +102,13 @@ app.on("window-all-closed", () => {
 app.on("activate", () => {
   if (BrowserWindow.getAllWindows().length === 0) {
     createWindow();
+  }
+});
+app.on("before-quit", () => {
+  if (serverProcess) {
+    console.log("Stopping server before quit...");
+    serverProcess.kill();
+    serverProcess = null;
   }
 });
 //osX only ends
