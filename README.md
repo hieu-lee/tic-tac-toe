@@ -40,7 +40,9 @@ ollama serve
 > **Note:** You might need to reactivate `.venv` before running the command below in order for it to work.
 
 ```bash
-uvicorn back.api:app --host 0.0.0.0 --port 8000 --reload
+python -m back.server
+# or: 
+# uvicorn back.api:app --host 0.0.0.0 --port 8000 --reload
 ```
 
 6. Run frontend app
