@@ -3,6 +3,8 @@ import { Link } from "@tanstack/react-router";
 // This doesn't work
 // import { useTheme } from "next-themes";
 import { useTranslation } from "react-i18next";
+import logoLight from "@/assets/logos/framed_easyform_logo_light.png";
+import logoDark from "@/assets/logos/framed_easyform_logo_dark.png";
 import {
   NavigationMenu as NavigationMenuBase,
   NavigationMenuItem,
@@ -35,9 +37,7 @@ export default function NavigationMenu() {
     <div className="relative w-full px-2 font-mono text-muted-foreground flex items-center">
       <div className="flex items-center">
         <img 
-          src={isDark ? 
-            "/src/assets/logos/framed_easyform_logo_dark.png" : 
-            "/src/assets/logos/framed_easyform_logo_light.png"}
+          src={isDark ? logoDark : logoLight}
           alt="EasyForm Logo" 
           className="h-8 w-auto"
         />

@@ -1,6 +1,6 @@
 {
-  "name": "FormFillerAI",
-  "productName": "FormFillerAI",
+  "name": "EasyForm",
+  "productName": "EasyForm",
   "version": "1.0.0",
   "description": "Electron Forge with shadcn-ui (Vite + Typescript)",
   "main": ".vite/build/main.js",
@@ -20,7 +20,7 @@
     "test:e2e": "playwright test",
     "test:all": "vitest run && playwright test"
   },
-  "author": "ROG <luan.roger.2003@gmail.com>",
+  "author": "Tung (Sahur) & Hieu (Jeff)",
   "license": "MIT",
   "devDependencies": {
     "@electron-forge/cli": "^7.8.1",

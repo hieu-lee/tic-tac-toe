@@ -52,7 +52,7 @@ run = "rm ~/easyform/context/context_data.json && python -m back.cli --contextDi
 description = "Bundle backend with frontend"
 alias = "bb"
 dir = "{{config_root}}"
-run = "pyinstaller server.spec --clean --distpath ./front/src/assets/python"
+run = "pyinstaller server.spec --clean --distpath ./front/src/assets/python 2>&1 | tee pyinstaller.log"
 
 [settings]
 python.uv_venv_auto = true

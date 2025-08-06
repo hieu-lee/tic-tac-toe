@@ -11,7 +11,7 @@ npm start
 
 ```bash
 npm run package
-open ./out/FormFillerAI-darwin-arm64/FormFillerAI.app
+open ./out/EasyForm-darwin-arm64/EasyForm.app
 ```
 
 ## Build python script

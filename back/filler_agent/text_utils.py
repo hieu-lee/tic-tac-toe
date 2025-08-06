@@ -1141,6 +1141,7 @@ def convert_docx_to_pdf(docx_path: str | Path, *, remove_source: bool = False) -
     from pathlib import Path  # local import
     import shutil
     import subprocess
+    import sys
 
     docx_path = Path(docx_path).expanduser().resolve()
     if not docx_path.exists():
@@ -1161,7 +1162,18 @@ def convert_docx_to_pdf(docx_path: str | Path, *, remove_source: bool = False) -
         str(docx_path.parent),
         str(docx_path),
     ]
-    subprocess.run(cmd, check=True)
+    
+    # Fix for PyInstaller bundled version: prevent subprocess from restarting the main process
+    subprocess_kwargs = {"check": True}
+    if getattr(sys, 'frozen', False):
+        # Running in PyInstaller bundle - add process isolation flags
+        if sys.platform == 'win32':
+            subprocess_kwargs["creationflags"] = subprocess.CREATE_NO_WINDOW
+        subprocess_kwargs["env"] = os.environ.copy()
+        # Ensure child process doesn't inherit the bundled executable's environment
+        subprocess_kwargs["env"].pop("_MEIPASS", None)
+    
+    subprocess.run(cmd, **subprocess_kwargs)
 
     pdf_path = docx_path.with_suffix(".pdf")
     if not pdf_path.exists():
@@ -1217,6 +1229,7 @@ def convert_pdf_to_docx(
     """
 
     from pathlib import Path  # local import to keep global namespace clean
+    import sys
 
     try:
         from pdf2docx import Converter  # type: ignore
@@ -1230,6 +1243,12 @@ def convert_pdf_to_docx(
         docx_path = pdf_path.with_suffix(".docx")
     else:
         docx_path = Path(docx_path)
+
+    # Fix for PyInstaller bundled version: disable multi-processing to prevent restart issues
+    if getattr(sys, 'frozen', False):
+        # Running in PyInstaller bundle - disable multi-processing
+        multi_processing = False
+        logging.debug("Disabled multi-processing for PDF to DOCX conversion in bundled mode")
 
     # Perform the conversion – wrap in try/finally to ensure the converter is closed
     converter = Converter(str(pdf_path))

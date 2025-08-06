@@ -109,7 +109,7 @@ export default function PlainPdfViewer({ pdfPath }: { pdfPath: string }) {
       const entry = entries[0];
       const newWidth = entry.contentRect.width;
 
-      if (newWidth !== lastWidth) {
+      if (Math.abs(newWidth - lastWidth) > 5) {
         lastWidth = newWidth;
 
         clearTimeout(resizeTimeout);

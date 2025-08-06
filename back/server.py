@@ -1,6 +1,8 @@
 import uvicorn
 import sys
 import os
+import logging
+from pathlib import Path
 
 # Add the directory containing the back package to Python path for PyInstaller
 if getattr(sys, "frozen", False):
@@ -9,6 +11,23 @@ if getattr(sys, "frozen", False):
     sys.path.insert(0, bundle_dir)
 
 if __name__ == "__main__":
+    # Set up logging to both file and console
+    log_dir = Path.home() / ".EasyForm"
+    log_dir.mkdir(exist_ok=True)
+    log_file = log_dir / "debug.log"
+    
+    # Configure logging with both file and console handlers
+    logging.basicConfig(
+        level=logging.DEBUG,
+        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+        handlers=[
+            logging.FileHandler(log_file),
+            logging.StreamHandler(sys.stdout)
+        ]
+    )
+    
+    logger = logging.getLogger(__name__)
+    logger.info(f"Starting EasyForm backend server, logging to: {log_file}")
     """Convenience entry-point to launch the FastAPI backend.
 
     Run `python -m back.server` (or `python back/server.py`) and then visit
