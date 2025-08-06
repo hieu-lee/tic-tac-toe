@@ -35,7 +35,7 @@ export function SmallFormProcessingCard({
 
   const getStatusText = () => {
     if (processingError) {
-      return { text: "Failed", className: "text-re-600 bg-red-50" };
+      return { text: "Failed", className: "text-red-600 bg-red-50" };
     }
     if (isProcessing) {
       return { text: "Processing", className: "text-blue-600 bg-blue-50" };
