@@ -140,16 +140,16 @@ cd front && npm run package
 # The installer / binaries will appear in front/out
 ```
 
-## Packaging
+## Packaging & Distribution
 
 1. bundling backend as frontend asset with `pyinstaller server.spec --clean --distpath ./front/src/assets/python`
-2. Go into the `front` directory
-3. Run `npm run make` to create a production build of our app
+2. Run `cd front && npm run make` to create a production build of our app
   - This will package python backend into binary executable
   - The package will be created in `./front/out` directory
-4. To run frontend packaged with backend:
-  + For debugging, run the commands [here](https://github.com/hieu-lee/we-got-this/blob/0a84f9c373b4c87d5239057d16cd2b122e5ae8c4/front/mprocs.yaml#L1-L1)
-  + For production run `open front/out/EasyForm-darwin-arm64/EasyForm.app`
+3. To run frontend packaged with backend:
+  + For debugging, run the commands [here](https://github.com/hieu-lee/tic-tac-toe/blob/79916f817f8dd462cc8aad6ca182c867980b269a/front/mprocs.yaml#L1-L7)
+  + For production, run `open front/out/EasyForm-darwin-arm64/EasyForm.app`
+4. For distribution `cd ./front/out/EasyForm-darwin-arm64 && zip -r EasyForm.zip EasyForm.app` and put the zip in github releases.
 
 ## Quick Local Backend Test Run
 
