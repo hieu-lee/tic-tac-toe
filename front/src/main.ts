@@ -12,6 +12,7 @@ import {
 const inDevelopment = process.env.NODE_ENV === "development";
 
 let serverProcess: ChildProcess | null = null;
+let listenersRegistered = false;
 
 function createWindow() {
   const preload = path.join(__dirname, "preload.js");
@@ -29,6 +30,25 @@ function createWindow() {
     titleBarStyle: "hidden",
   });
 
+  // Register listeners only once
+  if (!listenersRegistered) {
+    registerListeners(mainWindow);
+    listenersRegistered = true;
+  }
+  if (!inDevelopment) {
+    mainWindow.webContents.openDevTools({ mode: 'detach' });
+  }
+
+  if (MAIN_WINDOW_VITE_DEV_SERVER_URL) {
+    mainWindow.loadURL(MAIN_WINDOW_VITE_DEV_SERVER_URL);
+  } else {
+    mainWindow.loadFile(
+      path.join(__dirname, `../renderer/${MAIN_WINDOW_VITE_NAME}/index.html`),
+    );
+  }
+}
+
+function startBackend() {
   // TODO:
   // if (true) { // Use this line to start backend in dev mode
   if (!inDevelopment) {
@@ -64,22 +84,13 @@ function createWindow() {
       throw error;
     }
   }
-
-  // Rerender electron window
-  registerListeners(mainWindow);
-  mainWindow.webContents.openDevTools({ mode: 'detach' });
-
-  if (MAIN_WINDOW_VITE_DEV_SERVER_URL) {
-    mainWindow.loadURL(MAIN_WINDOW_VITE_DEV_SERVER_URL);
-  } else {
-    mainWindow.loadFile(
-      path.join(__dirname, `../renderer/${MAIN_WINDOW_VITE_NAME}/index.html`),
-    );
-  }
 }
 
 app.whenReady()
-  .then(createWindow)
+  .then(() => {
+    startBackend();
+    createWindow();
+  })
 // .then(() => {
 //   // FIXME: https://github.com/MarshallOfSound/electron-devtools-installer is not working
 //   installExtension(REACT_DEVELOPER_TOOLS)
@@ -90,11 +101,6 @@ app.whenReady()
 //osX only
 app.on("window-all-closed", () => {
   if (process.platform !== "darwin") {
-    if (serverProcess) {
-      console.log("Stopping server...");
-      serverProcess.kill();
-      serverProcess = null;
-    }
     app.quit();
   }
 });
@@ -104,6 +110,7 @@ app.on("activate", () => {
     createWindow();
   }
 });
+
 app.on("before-quit", () => {
   if (serverProcess) {
     console.log("Stopping server before quit...");
